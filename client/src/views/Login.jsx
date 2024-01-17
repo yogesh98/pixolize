@@ -19,16 +19,29 @@ import {
 } from '@chakra-ui/react'
 
 import { PasswordField } from '../components/PasswordField/PasswordField'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useAuth } from 'pocketbase-react'
+import { useNavigate } from 'react-router-dom'
 
 export const Login = () => {
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
+    const navigate = useNavigate()
+    const { actions, isSignedIn } = useAuth();
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
-    const handleSubmit = () => {
-
+    useEffect(() => {
+      if(isSignedIn){
+        navigate("/dashboard")
+      }
+    })
+    const handleSubmit = async () => {
+      try {
+        await actions.signInWithEmail(emailRef?.current?.value, passwordRef?.current?.value)
+      } catch (error) {
+        setError("Username or Password is incorrect. Please try again.")
+      }
     }
     return (
         <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
@@ -65,24 +78,12 @@ export const Login = () => {
                     <Button type="submit" disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
                   </Stack>
                 </form>
-                {error ? <HStack justify="end">
-                  <Button onClick={() => navigate('/forgot-password')} variant="link" colorScheme="blue" size="sm">
-                    Forgot password?
-                  </Button>
-                </HStack> : null}
                 <Stack spacing="6">
-                  <HStack>
-                    <Divider />
-                    <Text fontSize="sm" whiteSpace="nowrap" color="muted">
-                      or continue with
-                    </Text>
-                    <Divider />
-                  </HStack>
-                  <HStack spacing="1" justify="center">
+                  <HStack justify="center">
                     <Text>Don't have an account?</Text>
-                    <Button variant="link" colorScheme="blue">
-                      <Link to="/signup">Sign up</Link>
-                    </Button>
+                    <Button variant="link" colorScheme="blue" onClick={() => navigate('/signup')}>
+                            Sign Up
+                      </Button>
                   </HStack>
                 </Stack>
               </Stack>

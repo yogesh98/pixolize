@@ -12,8 +12,6 @@ import LoaderComponent from "./components/Loader/LoaderComponent";
  
 
 const serverURL = import.meta.env.VITE_POCKET_BASE_SERVER_URL
-const collections = ['TEST_COLLECTION',]
-const webRedirectURL = import.meta.env.VITE_WEB_REDIRECT_URL
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -23,8 +21,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             <Pocketbase
               serverURL={serverURL}
-              initialCollections={collections}
-              webRedirectUrl={webRedirectURL}
             >
               <App />
             </Pocketbase>

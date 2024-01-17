@@ -10,6 +10,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import BaseLayout from './layouts/BaseLayout';
 import { Login } from './views/Login';
+const Signup = React.lazy(() => import('./views/Signup'));
 const NotFound = React.lazy(() => import('./views/NotFound'));
 
 
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<BaseLayout />}>
           <Route path="login" element={<Login/>}/>
+          <Route path="signup" element={<Signup/>}/>
           <Route path="*" element={<NotFound />}/>
         </Route>
       </Routes>

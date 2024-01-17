@@ -11,7 +11,7 @@ import {
   import { forwardRef, useRef } from 'react'
   import { HiEye, HiEyeOff } from 'react-icons/hi'
   
-  export const PasswordField = forwardRef((props, ref) => {
+  export const PasswordField = forwardRef(({isRepeat}, ref) => {
     const { isOpen, onToggle } = useDisclosure()
     const inputRef = useRef(null)
     const mergeRef = useMergeRefs(inputRef, ref)
@@ -25,7 +25,7 @@ import {
     }
     return (
       <FormControl>
-        <FormLabel htmlFor="password">Password</FormLabel>
+        <FormLabel htmlFor="password">{!isRepeat ? "Password" : "Repeat Password"}</FormLabel>
         <InputGroup>
           <InputRightElement>
             <IconButton
@@ -36,13 +36,10 @@ import {
             />
           </InputRightElement>
           <Input
-            id="password"
             ref={mergeRef}
-            name="password"
             type={isOpen ? 'text' : 'password'}
             autoComplete="current-password"
             required
-            {...props}
           />
         </InputGroup>
       </FormControl>
