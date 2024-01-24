@@ -8,7 +8,6 @@ const config = {
                 display: "flex",
                 minHeight: "100vh",
                 minWidth: "320px",
-                overflowX:'hidden',
             },
             '#root': {
                 padding: '0',
