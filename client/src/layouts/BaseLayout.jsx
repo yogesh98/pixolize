@@ -12,7 +12,7 @@ export default function BaseLayout() {
 	});
 
 	return (
-		<Box id="app_container" bg={useColorModeValue('', 'gray.800')} h='100%'>
+		<Box id="app_container" bg={useColorModeValue('', 'gray.800')} h='100vh'>
 				<Outlet />
 		</Box>
   	);

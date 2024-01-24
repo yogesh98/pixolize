@@ -20,19 +20,20 @@ import {
   
   import { PasswordField } from '../components/PasswordField/PasswordField'
   import { useRef, useState, useEffect } from 'react'
-  import { useAuth } from 'pocketbase-react';
+  import { useAuth, useClientContext } from 'pocketbase-react';
   import { useNavigate } from "react-router-dom";
   
 const Signup = () => {
-      const navigate = useNavigate();
-      const inviteCodeRef = useRef(null)
+      const logo = useColorModeValue("/pixolize_logo_black.png", "/pixolize_logo_white.png")
+      const navigate = useNavigate()
       const usernameRef = useRef(null)
       const passwordRef = useRef(null)
       const passwordRef2 = useRef(null)
       const { actions, isSignedIn } = useAuth()
       const [loading, setLoading] = useState(false)
       const [error, setError] = useState("")
-  
+      const client = useClientContext()
+
       useEffect(() => {
         if(isSignedIn){
           navigate("/dashboard");
@@ -42,9 +43,25 @@ const Signup = () => {
       const handleSubmit = async () => {
         try {
           setLoading(true)
-          await actions.signinWithEmail(usernameRef?.current?.value, passwordRef?.current?.value);
+          if(passwordRef?.current?.value !== passwordRef2?.current?.value) {
+            setError("passwords do not match")
+          } else {
+            await client.collection('users').create({
+              username: usernameRef?.current?.value,
+              password: passwordRef?.current?.value,
+              passwordConfirm: passwordRef2?.current?.value
+            });
+            navigate('/login')
+          }
         } catch (error) {
-          setError("Incorrect username or password. Please try again.")
+          try {
+            const name = Object.keys(error.data.data)[0]
+            const message = error.data.data[name].message
+            setError(name.charAt(0).toUpperCase() + name.slice(1)+": "+message)
+          } catch (error2) {
+            setError("Failed to create user. Contact server Owner.")
+          }
+        } finally {
           setLoading(false)
         }
       }
@@ -54,7 +71,7 @@ const Signup = () => {
               <Stack spacing="6">
                 <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
                   <Flex alignItems={"center"} justifyContent="center">
-                    <Image mr={'2'} maxH={'100px'} src="/pixolize_logo_white.png"/>
+                    <Image mr={'2'} maxH={'100px'} src={logo}/>
                     <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
                         Pixolize.
                     </Heading>
@@ -76,16 +93,12 @@ const Signup = () => {
                   <form onSubmit={handleSubmit}>
                     <Stack spacing="5">
                       <FormControl>
-                        <FormLabel htmlFor="invite_code">Invite Code</FormLabel>
-                        <Input id="invite_code" type="text" ref={inviteCodeRef} />
-                      </FormControl>
-                      <FormControl>
                         <FormLabel htmlFor="username">Username</FormLabel>
                         <Input id="username" type="username" ref={usernameRef} />
                       </FormControl>
                       <PasswordField ref={passwordRef} />
                       <PasswordField isRepeat={true} ref={passwordRef2} />
-                      <Button type="submit" disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
+                      <Button disabled={loading} variant="solid" onClick={handleSubmit}>Sign Up</Button>
                     </Stack>
                   </form>
                   <Stack spacing="6">

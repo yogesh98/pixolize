@@ -6,10 +6,13 @@ const config = {
             body: {
                 margin:0,
                 display: "flex",
-                placeItems: "center",
                 minHeight: "100vh",
                 minWidth: "320px",
-                margin: 0,
+                overflowX:'hidden',
+            },
+            '#root': {
+                padding: '0',
+                minWidth:'100%',
             }
         }
     },

@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+
 import BaseLayout from './layouts/BaseLayout';
+import RequireAuthLayout from './layouts/RequireAuthLayout';
 import { Login } from './views/Login';
+import DashboardLayout from './layouts/DashboardLayout';
+
 const Signup = React.lazy(() => import('./views/Signup'));
 const NotFound = React.lazy(() => import('./views/NotFound'));
 
 
 function App() {
-  const [count, setCount] = useState(0)
   console.log(import.meta.env.BASE_URL)
   return (
     <>
@@ -23,6 +23,11 @@ function App() {
         <Route path="/" element={<BaseLayout />}>
           <Route path="login" element={<Login/>}/>
           <Route path="signup" element={<Signup/>}/>
+          <Route path="dashboard/" element={<RequireAuthLayout redirectTo="/login"/>}>
+            <Route path="" element={<DashboardLayout/>}>
+              <Route path="" element={<div>upload component</div>}/>
+            </Route>
+          </Route>
           <Route path="*" element={<NotFound />}/>
         </Route>
       </Routes>

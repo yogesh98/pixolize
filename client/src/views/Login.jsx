@@ -11,7 +11,6 @@ import {
   HStack,
   Image,
   Input,
-  Link,
   Stack,
   Text,
   useBreakpointValue,
@@ -24,10 +23,11 @@ import { useAuth } from 'pocketbase-react'
 import { useNavigate } from 'react-router-dom'
 
 export const Login = () => {
+    const logo = useColorModeValue("/pixolize_logo_black.png", "/pixolize_logo_white.png")
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
     const navigate = useNavigate()
-    const { actions, isSignedIn } = useAuth();
+    const { actions, isSignedIn } = useAuth()
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -40,7 +40,11 @@ export const Login = () => {
       try {
         await actions.signInWithEmail(emailRef?.current?.value, passwordRef?.current?.value)
       } catch (error) {
-        setError("Username or Password is incorrect. Please try again.")
+        if(error.message === "Please verify your email first."){
+          setError("Please ask Server Owner to verify your account before logging in.")
+        } else {
+          setError("Username or Password is incorrect. Please try again.")
+        }
       }
     }
     return (
@@ -49,7 +53,7 @@ export const Login = () => {
             <Stack spacing="6">
               <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
                 <Flex alignItems={"center"} justifyContent="center">
-                  <Image mr={'2'} maxH={'100px'} src="/pixolize_logo_white.png"/>
+                  <Image mr={'2'} maxH={'100px'} src={logo}/>
                   <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
                       Pixolize.
                   </Heading>
@@ -71,7 +75,7 @@ export const Login = () => {
                 <form onSubmit={handleSubmit}>
                   <Stack spacing="5">
                     <FormControl>
-                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <FormLabel htmlFor="email">Username</FormLabel>
                       <Input id="email" type="email" ref={emailRef} />
                     </FormControl>
                     <PasswordField ref={passwordRef} />
@@ -83,7 +87,7 @@ export const Login = () => {
                     <Text>Don't have an account?</Text>
                     <Button variant="link" colorScheme="blue" onClick={() => navigate('/signup')}>
                             Sign Up
-                      </Button>
+                    </Button>
                   </HStack>
                 </Stack>
               </Stack>
