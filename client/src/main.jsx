@@ -7,7 +7,7 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import App from './App.jsx'
 import './index.css'
 import theme from './styles/theme.js';
-import { Pocketbase } from 'pocketbase-react';
+import { Pocketbase } from '@yogeshp98/pocketbase-react';
 import LoaderComponent from "./components/Loader/LoaderComponent";
  
 

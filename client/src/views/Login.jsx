@@ -19,7 +19,7 @@ import {
 
 import { PasswordField } from '../components/PasswordField/PasswordField'
 import { useEffect, useRef, useState } from 'react'
-import { useAuth } from 'pocketbase-react'
+import { useAuth } from '@yogeshp98/pocketbase-react'
 import { useNavigate } from 'react-router-dom'
 
 export const Login = () => {

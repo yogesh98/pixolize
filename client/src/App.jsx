@@ -10,6 +10,7 @@ import BaseLayout from './layouts/BaseLayout';
 import RequireAuthLayout from './layouts/RequireAuthLayout';
 import { Login } from './views/Login';
 import DashboardLayout from './layouts/DashboardLayout';
+import Gallery from './views/Gallery';
 
 const Signup = React.lazy(() => import('./views/Signup'));
 const NotFound = React.lazy(() => import('./views/NotFound'));
@@ -23,9 +24,10 @@ function App() {
         <Route path="/" element={<BaseLayout />}>
           <Route path="login" element={<Login/>}/>
           <Route path="signup" element={<Signup/>}/>
-          <Route path="dashboard/" element={<RequireAuthLayout redirectTo="/login"/>}>
+          <Route path="dashboard/*" element={<RequireAuthLayout redirectTo="/login"/>}>
             <Route path="" element={<DashboardLayout/>}>
-              <Route path="" element={<div>upload component</div>}/>
+              <Route path="gallery" element={<Gallery/>}/>
+              <Route path="edit" element={<div>Edit Component</div>}/>
             </Route>
           </Route>
           <Route path="*" element={<NotFound />}/>

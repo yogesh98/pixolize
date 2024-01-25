@@ -1,21 +1,25 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import { Box, Flex, Stack, useColorModeValue } from '@chakra-ui/react'
+import React, { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Box, Flex } from '@chakra-ui/react'
 import Navbar from "../components/Navbar/Navbar";
+import Sidebar from "../components/Navbar/Sidebar";
 
 export default function DashboardLayout() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(location.pathname === '/dashboard/'){
+            navigate("gallery")
+        }
+    }, [location.pathname]);
 	return (
     <>
         <Box w="100vw" >
             <Navbar/>
         </Box>
     	<Flex h={'100%'}>
-            <Stack bg={useColorModeValue('gray.100', 'gray.900')} px={4} m={2} borderRadius={'15px'} w={200}>
-                <Box>
-                    hello
-                </Box>
-            </Stack>
-            <Box flexGrow={1}>
+            <Sidebar/>
+            <Box m={2} flexGrow={1}>
     			<Outlet />
             </Box>
 		</Flex>

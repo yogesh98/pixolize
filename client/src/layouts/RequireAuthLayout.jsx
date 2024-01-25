@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from 'pocketbase-react';
+import { useAuth } from '@yogeshp98/pocketbase-react';
 import LoaderComponent from '../components/Loader/LoaderComponent';
 
 export default function RequireAuthLayout({ redirectTo }) {

@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 
 import { MoonIcon, SunIcon, HamburgerIcon } from '@chakra-ui/icons'
-import { useAuth } from 'pocketbase-react'
+import { useAuth } from '@yogeshp98/pocketbase-react'
 
 
 const NavLink = (props) => {
