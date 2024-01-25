@@ -12,7 +12,7 @@ export default function BaseLayout() {
 	});
 
 	return (
-		<Flex id="app_container" bg={useColorModeValue('', 'gray.800')} h='100dvh' flexDir={'column'}>
+		<Flex id="app_container" bg={useColorModeValue('', 'gray.800')} minH='100%'>
 				<Outlet />
 		</Flex>
   	);

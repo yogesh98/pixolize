@@ -36,27 +36,34 @@ export default function Gallery() {
     }
 	return (
     <>
-    <Flex h={'100%'} direction={'column'}>
-        {currentImg ? <img id="gallery_img" src={pb.files.getUrl(currentImg, currentImg.image)} /> : null}
-        {/* <Box
-            borderRadius={'15px'} 
-            borderColor={useColorModeValue('gray.200', 'whitealpha.300')} 
-            borderWidth={4}
-            bg={useColorModeValue('gray.100', 'gray.900')}
-            p={2}
-            flexGrow={1}
-        >   
-            {currentImg ? <img src={pb.files.getUrl(currentImg, currentImg.image)} /> : null}
-        </Box> */}
+    <Flex 
+        h={'100%'}
+        borderRadius={'15px'} 
+        borderColor={useColorModeValue('gray.200', 'whitealpha.300')} 
+        borderWidth={4}
+        bg={useColorModeValue('gray.100', 'gray.900')}
+    >
         <Box
-            w={'100%'}
-            m={2}
+            overflow={'auto'}
+            borderRightWidth={4}
         >
             {images.map((img) => <Image 
+                key={img.id}
+                m={2}
+                borderRadius={'7.5px'}
                 src={pb.files.getUrl(img, img.image, {thumb:'100x100'})} 
                 onClick={() => setCurrentImg(img)}
             />)}
         </Box>
+        <Box
+            key={currentImg?.id}
+            p={2}
+            flexGrow={1}
+            bgImg={currentImg ? pb.files.getUrl(currentImg, currentImg.image) : null}
+            bgSize={'contain'}
+            bgRepeat={'no-repeat'}
+            bgPosition={'center'}
+        />   
     </Flex>
     </>
   	);

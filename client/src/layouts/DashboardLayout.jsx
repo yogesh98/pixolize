@@ -14,15 +14,17 @@ export default function DashboardLayout() {
     }, [location.pathname]);
 	return (
     <>
+    <Flex id="dashbaord_bounding_box" maxH={'100%'} flexDir={'column'}>
         <Box w="100vw" >
             <Navbar/>
         </Box>
-    	<Flex h={'100%'}>
+    	<Flex flexGrow={1} overflow={'auto'}>
             <Sidebar/>
             <Box m={2} flexGrow={1}>
     			<Outlet />
             </Box>
 		</Flex>
+    </Flex>
     </>
   	);
 }
