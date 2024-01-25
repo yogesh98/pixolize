@@ -12,6 +12,10 @@ const config = {
             '#root': {
                 padding: '0',
                 minWidth:'100%',
+            },
+            '#gallery_img': {
+                objectFit: 'contain',
+                maxHeight:'calc(100% - 100px)',
             }
         }
     },
