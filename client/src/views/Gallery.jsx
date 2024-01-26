@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {useDropzone} from 'react-dropzone'
 import { Box, Button, Card, CardBody, Flex, Grid, Heading, Image, Spinner, Stack, useColorModeValue } from '@chakra-ui/react'
 import LoaderComponent from "../components/Loader/LoaderComponent";
 import { useAppContent, useClientContext } from "@yogeshp98/pocketbase-react";
 
 
 export default function Gallery() {
+    const onDrop = useCallback(acceptedFiles => {
+        console.log(acceptedFiles);    
+    }, [])
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
     const location = useLocation();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -43,9 +49,10 @@ export default function Gallery() {
         borderWidth={4}
         bg={useColorModeValue('gray.100', 'gray.900')}
     >
-        <Box
-            overflow={'auto'}
+        <Stack
+            overflowY={'scroll'}
             borderRightWidth={4}
+            minWidth={'120px'}
         >
             {images.map((img) => <Image 
                 key={img.id}
@@ -54,7 +61,7 @@ export default function Gallery() {
                 src={pb.files.getUrl(img, img.image, {thumb:'100x100'})} 
                 onClick={() => setCurrentImg(img)}
             />)}
-        </Box>
+        </Stack>
         <Box
             key={currentImg?.id}
             p={2}
@@ -63,7 +70,11 @@ export default function Gallery() {
             bgSize={'contain'}
             bgRepeat={'no-repeat'}
             bgPosition={'center'}
-        />   
+            {...getRootProps()}
+        >
+            <input {...getInputProps()} />
+           { currentImg && !isDragActive ? null : (isDragActive ? "Drop File to Upload" : "Drag File to Upload") }
+        </Box>   
     </Flex>
     </>
   	);

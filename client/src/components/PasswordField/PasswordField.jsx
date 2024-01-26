@@ -27,6 +27,12 @@ import {
       <FormControl>
         <FormLabel htmlFor="password">{!isRepeat ? "Password" : "Repeat Password"}</FormLabel>
         <InputGroup>
+          <Input
+            ref={mergeRef}
+            type={isOpen ? 'text' : 'password'}
+            autoComplete="current-password"
+            required
+          />
           <InputRightElement>
             <IconButton
               variant="text"
@@ -35,12 +41,6 @@ import {
               onClick={onClickReveal}
             />
           </InputRightElement>
-          <Input
-            ref={mergeRef}
-            type={isOpen ? 'text' : 'password'}
-            autoComplete="current-password"
-            required
-          />
         </InputGroup>
       </FormControl>
     )

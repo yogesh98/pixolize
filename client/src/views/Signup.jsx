@@ -40,7 +40,8 @@ const Signup = () => {
         }
       }, [isSignedIn])
   
-      const handleSubmit = async () => {
+      const handleSubmit = async (e) => {
+        e.preventDefault()
         try {
           setLoading(true)
           if(passwordRef?.current?.value !== passwordRef2?.current?.value) {
@@ -98,7 +99,7 @@ const Signup = () => {
                       </FormControl>
                       <PasswordField ref={passwordRef} />
                       <PasswordField isRepeat={true} ref={passwordRef2} />
-                      <Button disabled={loading} variant="solid" onClick={handleSubmit}>Sign Up</Button>
+                      <Button type='submit' disabled={loading} variant="solid" onClick={handleSubmit}>Sign Up</Button>
                     </Stack>
                   </form>
                   <Stack spacing="6">

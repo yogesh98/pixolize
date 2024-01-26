@@ -33,14 +33,15 @@ export const Login = () => {
     const [error, setError] = useState("")
     useEffect(() => {
       if(isSignedIn){
-        navigate("/dashboard")
+        navigate("/dashboard/")
       }
     })
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+      e.preventDefault()
       try {
         await actions.signInWithEmail(emailRef?.current?.value, passwordRef?.current?.value)
-      } catch (error) {
-        if(error.message === "Please verify your email first."){
+      } catch (err) {
+       if(err.message === "Please verify your email first."){
           setError("Please ask Server Owner to verify your account before logging in.")
         } else {
           setError("Username or Password is incorrect. Please try again.")
@@ -72,14 +73,14 @@ export const Login = () => {
             >
               <Stack spacing="6">
                 {error ? <Text color="red.400">{error}</Text> : null}
-                <form onSubmit={handleSubmit}>
+                <form>
                   <Stack spacing="5">
                     <FormControl>
-                      <FormLabel htmlFor="email">Username</FormLabel>
-                      <Input id="email" type="email" ref={emailRef} />
+                      <FormLabel htmlFor="username">Username</FormLabel>
+                      <Input id="username" type="username" ref={emailRef} />
                     </FormControl>
                     <PasswordField ref={passwordRef} />
-                    <Button type="submit" disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
+                    <Button type='submit' onClick={handleSubmit} disabled={loading} variant="solid">Sign in</Button>
                   </Stack>
                 </form>
                 <Stack spacing="6">
